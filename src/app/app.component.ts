@@ -115,6 +115,9 @@ private activtyHeightPx = 20;
   public dragIndex: number;
   public activeContainer;
 
+  private timelineStart = this.activitys[0].starttime;
+  private timelineEnd = this.activitys[this.activitys.length-1].endtime;
+
   constructor(private viewportRuler: ViewportRuler) {}
 
   ngAfterViewInit() {
@@ -133,6 +136,7 @@ private activtyHeightPx = 20;
         return;
       }
     });
+    console.log('dragMoved ');
   }
 
   dropListDropped() {
@@ -155,6 +159,11 @@ private activtyHeightPx = 20;
 
     if (this.sourceIndex != this.targetIndex)
       moveItemInArray(this.activitys, this.sourceIndex, this.targetIndex);
+      console.log('dropListDropped, from ' + this.sourceIndex + ' to '+ this.targetIndex);
+  }
+
+  getActivityTime(index){
+
   }
 
   dropListEnterPredicate = (drag: CdkDrag, drop: CdkDropList) => {
