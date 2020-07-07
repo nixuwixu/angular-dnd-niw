@@ -34,7 +34,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  //border: solid 1px #fff;
+  border: solid 1px #fff;
 }
 
 .activity-item:active {
