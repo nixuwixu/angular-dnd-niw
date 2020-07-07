@@ -32,27 +32,27 @@ private timelineRangeMinutes = 30;
 
   public timeline: Array<any> = [
     { title: '12:00' },
-    { title: '-' },
+    { title: '12:30' },
     { title: '13:00' },
-    { title: '-' },
+    { title: '13:30' },
     { title: '14:00' },
-    { title: '-' },
+    { title: '14:30' },
     { title: '15:00' },
-    { title: '-' },
+    { title: '15:30' },
     { title: '16:00' },
-    { title: '-' },
+    { title: '16:30' },
     { title: '17:00' },
-    { title: '-' },
+    { title: '17:30' },
     { title: '18:00' },
-    { title: '-' },
-    { title: '1900' },
-    { title: '-' },
+    { title: '18:30' },
+    { title: '19:00' },
+    { title: '19:30' },
     { title: '20:00' },
-    { title: '-' },
+    { title: '20:30' },
     { title: '21:00' },
-    { title: '-' },
+    { title: '21:30' },
     { title: '22:00' },
-    { title: '-' }
+    { title: '22:30' }
   ];
 
 /* Activitys array rules
@@ -125,6 +125,9 @@ private activtyHeightPx = 20;
 
     phElement.style.display = "none";
     phElement.parentElement.removeChild(phElement);
+
+    console.log('timelineStart ' + this.timelineStart);
+    console.log('timelineEnd ' + this.timelineEnd);
   }
 
   dragMoved(e: CdkDragMove) {
@@ -163,7 +166,7 @@ private activtyHeightPx = 20;
   }
 
   getActivityTime(index){
-
+    return this.timeline[index].title;
   }
 
   dropListEnterPredicate = (drag: CdkDrag, drop: CdkDropList) => {

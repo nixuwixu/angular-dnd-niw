@@ -33,7 +33,7 @@
 				(cdkDragMoved)="dragMoved($event);" [ngStyle]="{
         'height.px': activity.height,
         'background-color': 'rgba('+ activity.color + ')'}">
-				<span>{{activitys.indexOf(activity)}}</span>
+				<span>{{getActivityTime(activitys.indexOf(activity))}}</span>
       </div>
 
 		</div>
