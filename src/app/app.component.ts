@@ -160,19 +160,30 @@ private activtyHeightPx = 20;
     this.target = null;
     this.source = null;
 
-    if (this.sourceIndex != this.targetIndex)
+    if (this.sourceIndex != this.targetIndex){
+      this.updateActivitysTimes(this.sourceIndex, this.targetIndex)
       moveItemInArray(this.activitys, this.sourceIndex, this.targetIndex);
       console.log('dropListDropped, from ' + this.sourceIndex + ' to '+ this.targetIndex);
+    }
+  }
+
+  updateActivitysTimes(sourceIndex,targetIndex){
+      const sourceStart = this.activitys[this.sourceIndex].starttime;
+      const sourceEnd = this.activitys[this.sourceIndex].endtime;
+      this.activitys[this.sourceIndex].starttime = this.activitys[this.targetIndex].starttime + 'ss';
+      this.activitys[this.sourceIndex].endtime = this.activitys[this.targetIndex].endtime + 'es';
+      this.activitys[this.targetIndex].starttime = sourceStart + 'st';
+      this.activitys[this.targetIndex].endtime = sourceEnd + 'et';
   }
 
   getActivityTime(index){
     if(index == 0 || this.activitys[index].title != this.activitys[index-1].title){
       return this.activitys[index].title + ' '
-       + this.timeline[index].title + ' - ' 
-       + this.timeline[index+1].title;
+       + this.activitys[index].starttime + ' - ' 
+       + this.activitys[index].endtime;
     }
 
-    return this.timeline[index].title + ' - ' + this.timeline[index+1].title;
+    return this.activitys[index].starttime + ' - ' + this.activitys[index].endtime;
   }
 
   dropListEnterPredicate = (drag: CdkDrag, drop: CdkDropList) => {
