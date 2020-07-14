@@ -27,7 +27,7 @@
 }
 
 .activity-item {
-  width: 200px;
+  width: 300px;
   font-size: 10pt;
   cursor: move;
   display: flex;

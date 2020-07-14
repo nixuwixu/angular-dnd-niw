@@ -9,6 +9,7 @@ import {
   moveItemInArray
 } from "@angular/cdk/drag-drop";
 import { ViewportRuler } from "@angular/cdk/overlay";
+import moment from 'moment';
 
 @Component({
   selector: "my-app",
@@ -21,14 +22,13 @@ export class AppComponent {
 
 /* Timeline array construction
 - timeLineSpanMinutes = last Activity endtime (22:30) - first Activity starttime (12:00) * 60 =>  10 ½ => 630
-- 630 / timelineRangeMinutes(30) = 21
-- 630 / timelineRangeMinutes(15) = 42
+- 630 / timelineInterval(30) = 21
+- 630 / timelineInterval(15) = 42
 
-( shortestActivty decides min for timelineRangeMinutes )
+( shortestActivty decides min for timelineInterval )
 
 */
-
-private timelineRangeMinutes = 30;
+public timelineInterval: number = 30;
 
   public timeline: Array<any> = [
     { title: '12:00' },
@@ -61,16 +61,16 @@ private timelineRangeMinutes = 30;
 - 'Short break' not allowed at first or last index in array.
 - if 'Activty' is movable it's height should be nActivitySlices * activtyHeight
 
-nActivitySlices = ActivityLengthInMinutes / timelineRangeMinutes
+nActivitySlices = ActivityLengthInMinutes / timelineInterval
 
-- 60 / timelineRangeMinutes(30) = 2
-- 30 / timelineRangeMinutes(30) = 1
-- 15 / timelineRangeMinutes(30) = 0.5 ( RULE: timelineRangeMinutes can't be > ActivityLengthInMinutes )
-( shortestActivty decides min for timelineRangeMinutes )
+- 60 / timelineInterval(30) = 2
+- 30 / timelineInterval(30) = 1
+- 15 / timelineInterval(30) = 0.5 ( RULE: timelineInterval can't be > ActivityLengthInMinutes )
+( shortestActivty decides min for timelineInterval )
 
-- 60 / timelineRangeMinutes(15) = 4
-- 30 / timelineRangeMinutes(15) = 2
-- 15 / timelineRangeMinutes(15) = 1
+- 60 / timelineInterval(15) = 4
+- 30 / timelineInterval(15) = 2
+- 15 / timelineInterval(15) = 1
 
 - Functions
 
@@ -85,28 +85,27 @@ mapActivyToTimeline ?
 private activtyHeightPx = 20;
 
   public activitys: Array<any> = [
-    { title: 'Administration', height:  this.activtyHeightPx , movable: false, color: '192,192,255', starttime: '12:00', endtime: '12:30' },
-    { title: 'Administration', height:  this.activtyHeightPx , movable: false, color: '192,192,255', starttime: '12:30', endtime: '13:00' },
-    { title: 'Administration', height:  this.activtyHeightPx , movable: false, color: '192,192,255', starttime: '13:00', endtime: '13:30' },
-    { title: 'Administration', height:  this.activtyHeightPx , movable: false, color: '192,192,255', starttime: '13:30', endtime: '14:00' },
-    { title: 'Short break', height:  this.activtyHeightPx , movable: true, color: '255,0,0', starttime: '14:00', endtime: '14:30' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '14:30', endtime: '15:00' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '15:00', endtime: '15:30' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '15:30', endtime: '16:00' },
-    { title: 'Lunch', height:  this.activtyHeightPx*2 , movable: true, color: '255,255,0', starttime: '16:00', endtime: '17:00' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '17:00', endtime: '17:30' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '17:30', endtime: '18:00' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '18:00', endtime: '18:30' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '18:30', endtime: '19:00' },
-    { title: 'Short break', height:  this.activtyHeightPx , movable: true, color: '255,0,0', starttime: '19:00', endtime: '19:30' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '19:30', endtime: '20:00' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '20:00', endtime: '20:30' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '20:30', endtime: '21:00' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '21:00', endtime: '21:30' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '21:30', endtime: '22:00' },
-    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '22:00', endtime: '22:30' }
+    { title: 'Administration', height:  this.activtyHeightPx , movable: false, color: '192,192,255', starttime: '12:00', endtime: '12:30', activityLength: 30 },
+    { title: 'Administration', height:  this.activtyHeightPx , movable: false, color: '192,192,255', starttime: '12:30', endtime: '13:00', activityLength: 30  },
+    { title: 'Administration', height:  this.activtyHeightPx , movable: false, color: '192,192,255', starttime: '13:00', endtime: '13:30', activityLength: 30  },
+    { title: 'Administration', height:  this.activtyHeightPx , movable: false, color: '192,192,255', starttime: '13:30', endtime: '14:00', activityLength: 30  },
+    { title: 'Short break', height:  this.activtyHeightPx , movable: true, color: '255,0,0', starttime: '14:00', endtime: '14:30', activityLength: 30  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '14:30', endtime: '15:00', activityLength: 30  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '15:00', endtime: '15:30', activityLength: 30  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '15:30', endtime: '16:00', activityLength: 30  },
+    { title: 'Lunch', height:  this.activtyHeightPx*2 , movable: true, color: '255,255,0', starttime: '16:00', endtime: '17:00', activityLength: 60  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '17:00', endtime: '17:30', activityLength: 30  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '17:30', endtime: '18:00', activityLength: 30  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '18:00', endtime: '18:30', activityLength: 30  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '18:30', endtime: '19:00', activityLength: 30  },
+    { title: 'Short break', height:  this.activtyHeightPx , movable: true, color: '255,0,0', starttime: '19:00', endtime: '19:30', activityLength: 30  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '19:30', endtime: '20:00', activityLength: 30  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '20:00', endtime: '20:30', activityLength: 30  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '20:30', endtime: '21:00', activityLength: 30  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '21:00', endtime: '21:30', activityLength: 30  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '21:30', endtime: '22:00', activityLength: 30  },
+    { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '22:00', endtime: '22:30', activityLength: 30  }
   ];
-
 
   public target: CdkDropList = null;
   public targetIndex: number;
@@ -115,8 +114,7 @@ private activtyHeightPx = 20;
   public dragIndex: number;
   public activeContainer;
 
-  private timelineStart = this.activitys[0].starttime;
-  private timelineEnd = this.activitys[this.activitys.length-1].endtime;
+  public timelineStart = moment(this.activitys[0].starttime,'HH:mm').clone();
 
   constructor(private viewportRuler: ViewportRuler) {}
 
@@ -125,9 +123,6 @@ private activtyHeightPx = 20;
 
     phElement.style.display = "none";
     phElement.parentElement.removeChild(phElement);
-
-    console.log('timelineStart ' + this.timelineStart);
-    console.log('timelineEnd ' + this.timelineEnd);
   }
 
   dragMoved(e: CdkDragMove) {
@@ -161,19 +156,21 @@ private activtyHeightPx = 20;
     this.source = null;
 
     if (this.sourceIndex != this.targetIndex){
-      this.updateActivitysTimes(this.sourceIndex, this.targetIndex)
       moveItemInArray(this.activitys, this.sourceIndex, this.targetIndex);
-      console.log('dropListDropped, from ' + this.sourceIndex + ' to '+ this.targetIndex);
+      this.updateTime();
     }
   }
 
-  updateActivitysTimes(sourceIndex,targetIndex){
-      const sourceStart = this.activitys[this.sourceIndex].starttime;
-      const sourceEnd = this.activitys[this.sourceIndex].endtime;
-      this.activitys[this.sourceIndex].starttime = this.activitys[this.targetIndex].starttime + 'ss';
-      this.activitys[this.sourceIndex].endtime = this.activitys[this.targetIndex].endtime + 'es';
-      this.activitys[this.targetIndex].starttime = sourceStart + 'st';
-      this.activitys[this.targetIndex].endtime = sourceEnd + 'et';
+  updateTime(){
+    for(var index = 0; index < this.activitys.length; index++){
+      if (index == 0) {
+        this.activitys[index].starttime = this.timelineStart.format('HH:mm');
+      } else {
+        this.activitys[index].starttime = this.activitys[index-1].endtime 
+      }
+      this.activitys[index].endtime = moment(this.activitys[index].starttime,'HH:mm')
+      .add(this.activitys[index].activityLength,'minute').format('HH:mm');
+    }
   }
 
   getActivityTime(index){
