@@ -1,4 +1,5 @@
 export class Activity {
+
   title: string;
   height: number;
   movable: boolean;
@@ -15,7 +16,6 @@ export class Activity {
     starttime: string,
     endtime: string,
     activityLength: number) {
-
       this.title = title;
       this.height = height;
       this.movable = movable;
@@ -23,6 +23,18 @@ export class Activity {
       this.starttime = starttime;
       this.endtime = endtime;
       this.activityLength = activityLength;
-      
+    }
+}
+
+export class TimelineItem {
+
+  time: string;
+  visible: boolean;
+
+  constructor(
+    time: string,
+    visible: boolean) {
+      this.time = time;
+      this.visible = visible;
     }
 }

@@ -24,11 +24,11 @@ export class AppComponent implements OnInit{
   @ViewChild(CdkDropList) placeholder: CdkDropList;
 
   public activtyHeightPx = 20;
-  public timelineInterval: number = 30;
+  public timelineInterval: number = 15;
 
-  public activitys: Array<Activity>;// =  this.generateActivitysArray();
+  public activitys: Array<Activity> = [];
   public timeline: Array<any> = this.generateTimelineArray2();
-  public timelineStart ;//= moment(this.activitys[0].starttime,'HH:mm').clone();
+  public timelineStart ;
 
   public target: CdkDropList = null;
   public targetIndex: number;
@@ -37,15 +37,11 @@ export class AppComponent implements OnInit{
   public dragIndex: number;
   public activeContainer;
 
-  //public getScheduleApi: any;
-
-
   constructor(private viewportRuler: ViewportRuler, private jsonService: JsonService) {}
 
   public ngOnInit(): void {
     this.jsonService.getSchedule()
       .subscribe((data: any): void => {
-        //this.getScheduleApi = data;
         this.generateActivitysArray(data);
       });
   }
@@ -83,62 +79,48 @@ mapActivyToTimeline ?
 
 */
   generateActivitysArray(data) {
-    console.log('generateActivitysArray');
-    //this.timelineStart = moment(this.activitys[0].starttime,'HH:mm').clone();
 
-data.Schedule.Periods.forEach((period) => {
-  let activity = new Activity(
-      period.Title,
-      this.activtyHeightPx,
-      period.IsMovable,
-      period.Color,
-      period.StartTime,
-      period.EndTime,
-      30)
-      
-  this.activitys.push(activity);
-});
-    /*for(let period in data.Schedule.Periods){
-      let activity:Activity = new Activity();
-      activity.title = period.Title;
-      activity.height = this.activtyHeightPx;
-      activity.movable = period.IsMovable;
-      activity.color = period.Color;
-      activity.starttime = period.StartTime;
-      activity.endtime = period.EndTime;
-      activity.activityLength = 30;*/
+    data.Schedule.Periods.forEach((period) => {
+      let activityLength = moment(period.EndTime).diff(moment(period.StartTime), 'minutes');
+      let nActivitySlices = activityLength / this.timelineInterval;
+      console.log('diffMin ' + nActivitySlices);
 
-      //this.activitys.push(activity);
-   // }
-    //let test: Array<Activity> = data.Schedule.Periods;
-    //return test;
+      if(period.IsMovable){
 
-  }
+        let activity = new Activity(
+        period.Title,
+        this.activtyHeightPx * nActivitySlices,
+        period.IsMovable,
+        period.Color,
+        moment(period.StartTime).format('HH:mm'),
+        moment(period.EndTime).format('HH:mm'),
+        this.timelineInterval * nActivitySlices
+        )
+        this.activitys.push(activity);
+        
+      } else {
 
-  generateActivitysArray2() {
-    return [
-      { title: 'Administration', height:  this.activtyHeightPx , movable: false, color: '192,192,255', starttime: '12:00', endtime: '12:30', activityLength: 30 },
-      { title: 'Administration', height:  this.activtyHeightPx , movable: false, color: '192,192,255', starttime: '12:30', endtime: '13:00', activityLength: 30  },
-      { title: 'Administration', height:  this.activtyHeightPx , movable: false, color: '192,192,255', starttime: '13:00', endtime: '13:30', activityLength: 30  },
-      { title: 'Administration', height:  this.activtyHeightPx , movable: false, color: '192,192,255', starttime: '13:30', endtime: '14:00', activityLength: 30  },
-      { title: 'Short break', height:  this.activtyHeightPx , movable: true, color: '255,0,0', starttime: '14:00', endtime: '14:30', activityLength: 30  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '14:30', endtime: '15:00', activityLength: 30  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '15:00', endtime: '15:30', activityLength: 30  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '15:30', endtime: '16:00', activityLength: 30  },
-      { title: 'Lunch', height:  this.activtyHeightPx*2 , movable: true, color: '255,255,0', starttime: '16:00', endtime: '17:00', activityLength: 60  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '17:00', endtime: '17:30', activityLength: 30  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '17:30', endtime: '18:00', activityLength: 30  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '18:00', endtime: '18:30', activityLength: 30  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '18:30', endtime: '19:00', activityLength: 30  },
-      { title: 'Short break', height:  this.activtyHeightPx , movable: true, color: '255,0,0', starttime: '19:00', endtime: '19:30', activityLength: 30  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '19:30', endtime: '20:00', activityLength: 30  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '20:00', endtime: '20:30', activityLength: 30  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '20:30', endtime: '21:00', activityLength: 30  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '21:00', endtime: '21:30', activityLength: 30  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '21:30', endtime: '22:00', activityLength: 30  },
-      { title: 'Phone', height:  this.activtyHeightPx , movable: false, color: '128,255,128', starttime: '22:00', endtime: '22:30', activityLength: 30  }
-    ];
+        for(var n = 0; n < nActivitySlices; n++){
+          let activity = new Activity(
+          period.Title,
+          this.activtyHeightPx,
+          period.IsMovable,
+          period.Color,
+          moment(period.StartTime)
+          .add(this.timelineInterval * n,'minutes')
+          .format('HH:mm'),
+          moment(period.StartTime)
+          .add(this.timelineInterval * n + this.timelineInterval,'minutes')
+          .format('HH:mm'),
+          this.timelineInterval
+          )
+          this.activitys.push(activity);
+        }
+      }
+    
+    });
 
+    this.timelineStart = moment(this.activitys[0].starttime,'HH:mm').clone();
   }
 
 /* Timeline array construction
@@ -150,7 +132,13 @@ data.Schedule.Periods.forEach((period) => {
 
 */
   generateTimelineArray() {
+    for(var time = 0; time < this.activitys.length; time++){
+      let timelineItem = new TimelineItem{
+        this.timelineStart,
+        true
+      }
 
+    }
   }
 
   generateTimelineArray2() {
