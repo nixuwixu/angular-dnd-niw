@@ -1,0 +1,223 @@
+
+{
+  "Date": "2020-07-17",
+  "Schedule": {
+    "Date": "17/07/2020",
+    "Periods": [
+      {
+        "Title": "Phone",
+        "TimeSpan": "09:00 – 10:45",
+        "StartTime": "2020-07-17T09:00:00",
+        "EndTime": "2020-07-17T10:45:00",
+        "Summary": "1 h 45 min",
+        "StyleClassName": "color_80FF80",
+        "Meeting": null,
+        "StartPositionPercentage": 0.0,
+        "EndPositionPercentage": 0.1944444444444444444444444444,
+        "Color": "128,255,128",
+        "IsOvertime": false,
+        "IsAbsence": false,
+        "IsMovable": false,
+        "ShiftLayerId": "32832a9b-50a9-4de2-8b19-aba7009b6f05",
+        "IsLunch": false,
+        "IsShortBreak": false,
+        "BelongsToDate": "2020-07-17"
+      },
+      {
+        "Title": "Short break",
+        "TimeSpan": "10:45 – 11:00",
+        "StartTime": "2020-07-17T10:45:00",
+        "EndTime": "2020-07-17T11:00:00",
+        "Summary": "15 min",
+        "StyleClassName": "color_FF0000",
+        "Meeting": null,
+        "StartPositionPercentage": 0.1944444444444444444444444444,
+        "EndPositionPercentage": 0.2222222222222222222222222222,
+        "Color": "255,0,0",
+        "IsOvertime": false,
+        "IsAbsence": false,
+        "IsMovable": true,
+        "ShiftLayerId": "512021c4-3cb4-40ab-8458-aba7009b6f05",
+        "IsLunch": false,
+        "IsShortBreak": true,
+        "BelongsToDate": "2020-07-17"
+      },
+      {
+        "Title": "Phone",
+        "TimeSpan": "11:00 – 12:30",
+        "StartTime": "2020-07-17T11:00:00",
+        "EndTime": "2020-07-17T12:30:00",
+        "Summary": "1 h 30 min",
+        "StyleClassName": "color_80FF80",
+        "Meeting": null,
+        "StartPositionPercentage": 0.2222222222222222222222222222,
+        "EndPositionPercentage": 0.3888888888888888888888888889,
+        "Color": "128,255,128",
+        "IsOvertime": false,
+        "IsAbsence": false,
+        "IsMovable": false,
+        "ShiftLayerId": "32832a9b-50a9-4de2-8b19-aba7009b6f05",
+        "IsLunch": false,
+        "IsShortBreak": false,
+        "BelongsToDate": "2020-07-17"
+      },
+      {
+        "Title": "Lunch",
+        "TimeSpan": "12:30 – 13:30",
+        "StartTime": "2020-07-17T12:30:00",
+        "EndTime": "2020-07-17T13:30:00",
+        "Summary": "1 h",
+        "StyleClassName": "color_FFFF00",
+        "Meeting": null,
+        "StartPositionPercentage": 0.3888888888888888888888888889,
+        "EndPositionPercentage": 0.5,
+        "Color": "255,255,0",
+        "IsOvertime": false,
+        "IsAbsence": false,
+        "IsMovable": true,
+        "ShiftLayerId": "265a88f8-d736-4e6c-90e2-aba7009b6f05",
+        "IsLunch": true,
+        "IsShortBreak": false,
+        "BelongsToDate": "2020-07-17"
+      },
+      {
+        "Title": "Phone",
+        "TimeSpan": "13:30 – 15:45",
+        "StartTime": "2020-07-17T13:30:00",
+        "EndTime": "2020-07-17T15:45:00",
+        "Summary": "2 h 15 min",
+        "StyleClassName": "color_80FF80",
+        "Meeting": null,
+        "StartPositionPercentage": 0.5,
+        "EndPositionPercentage": 0.75,
+        "Color": "128,255,128",
+        "IsOvertime": false,
+        "IsAbsence": false,
+        "IsMovable": false,
+        "ShiftLayerId": "32832a9b-50a9-4de2-8b19-aba7009b6f05",
+        "IsLunch": false,
+        "IsShortBreak": false,
+        "BelongsToDate": "2020-07-17"
+      },
+      {
+        "Title": "Short break",
+        "TimeSpan": "15:45 – 16:00",
+        "StartTime": "2020-07-17T15:45:00",
+        "EndTime": "2020-07-17T16:00:00",
+        "Summary": "15 min",
+        "StyleClassName": "color_FF0000",
+        "Meeting": null,
+        "StartPositionPercentage": 0.75,
+        "EndPositionPercentage": 0.7777777777777777777777777778,
+        "Color": "255,0,0",
+        "IsOvertime": false,
+        "IsAbsence": false,
+        "IsMovable": true,
+        "ShiftLayerId": "d7ec0e43-5adf-4976-b85f-aba7009b6f05",
+        "IsLunch": false,
+        "IsShortBreak": true,
+        "BelongsToDate": "2020-07-17"
+      },
+      {
+        "Title": "Chat",
+        "TimeSpan": "16:00 – 18:00",
+        "StartTime": "2020-07-17T16:00:00",
+        "EndTime": "2020-07-17T18:00:00",
+        "Summary": "2 h",
+        "StyleClassName": "color_FFC0FF",
+        "Meeting": null,
+        "StartPositionPercentage": 0.7777777777777777777777777778,
+        "EndPositionPercentage": 1.0,
+        "Color": "255,192,255",
+        "IsOvertime": false,
+        "IsAbsence": false,
+        "IsMovable": false,
+        "ShiftLayerId": "93df8e45-06b9-404f-baaf-aba7009b6f05",
+        "IsLunch": false,
+        "IsShortBreak": false,
+        "BelongsToDate": "2020-07-17"
+      }
+    ],
+    "BaseLayer": {
+      "Title": "Phone",
+      "TimeSpan": null,
+      "StartTime": "2020-07-17T09:00:00",
+      "EndTime": "2020-07-17T18:00:00",
+      "Summary": null,
+      "StyleClassName": null,
+      "Meeting": null,
+      "StartPositionPercentage": null,
+      "EndPositionPercentage": null,
+      "Color": "128,255,128",
+      "IsOvertime": null,
+      "IsAbsence": null,
+      "IsMovable": null,
+      "ShiftLayerId": null,
+      "IsLunch": null,
+      "IsShortBreak": null,
+      "BelongsToDate": null
+    }
+  },
+  "TimeLine": [
+    {
+      "Time": "09:00:00",
+      "TimeLineDisplay": "09:00",
+      "PositionPercentage": 0.0,
+      "TimeFixedFormat": null
+    },
+    {
+      "Time": "10:00:00",
+      "TimeLineDisplay": "10:00",
+      "PositionPercentage": 0.1111111111111111111111111111,
+      "TimeFixedFormat": null
+    },
+    {
+      "Time": "11:00:00",
+      "TimeLineDisplay": "11:00",
+      "PositionPercentage": 0.2222222222222222222222222222,
+      "TimeFixedFormat": null
+    },
+    {
+      "Time": "12:00:00",
+      "TimeLineDisplay": "12:00",
+      "PositionPercentage": 0.3333333333333333333333333333,
+      "TimeFixedFormat": null
+    },
+    {
+      "Time": "13:00:00",
+      "TimeLineDisplay": "13:00",
+      "PositionPercentage": 0.4444444444444444444444444444,
+      "TimeFixedFormat": null
+    },
+    {
+      "Time": "14:00:00",
+      "TimeLineDisplay": "14:00",
+      "PositionPercentage": 0.5555555555555555555555555556,
+      "TimeFixedFormat": null
+    },
+    {
+      "Time": "15:00:00",
+      "TimeLineDisplay": "15:00",
+      "PositionPercentage": 0.6666666666666666666666666667,
+      "TimeFixedFormat": null
+    },
+    {
+      "Time": "16:00:00",
+      "TimeLineDisplay": "16:00",
+      "PositionPercentage": 0.7777777777777777777777777778,
+      "TimeFixedFormat": null
+    },
+    {
+      "Time": "17:00:00",
+      "TimeLineDisplay": "17:00",
+      "PositionPercentage": 0.8888888888888888888888888889,
+      "TimeFixedFormat": null
+    },
+    {
+      "Time": "18:00:00",
+      "TimeLineDisplay": "18:00",
+      "PositionPercentage": 1.0,
+      "TimeFixedFormat": null
+    }
+  ]
+}

@@ -3,7 +3,7 @@ import { CommonModule } from "@angular/common";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { DragDropModule } from "@angular/cdk/drag-drop";
-import { NzGridModule } from 'ng-zorro-antd/grid';
+import { JsonService } from './json-service';
 
 import { AppComponent } from "./app.component";
 
@@ -15,6 +15,7 @@ import { AppComponent } from "./app.component";
     DragDropModule
   ],
   declarations: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [JsonService]
 })
 export class AppModule {}
