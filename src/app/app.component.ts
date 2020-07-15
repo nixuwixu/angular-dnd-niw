@@ -87,15 +87,15 @@ mapActivyToTimeline ?
     //this.timelineStart = moment(this.activitys[0].starttime,'HH:mm').clone();
 
 data.Schedule.Periods.forEach((period) => {
-  let activity: Activity;
-      activity.title = period.Title;
-      activity.height = this.activtyHeightPx;
-      activity.movable = period.IsMovable;
-      activity.color = period.Color;
-      activity.starttime = period.StartTime;
-      activity.endtime = period.EndTime;
-      activity.activityLength = 30;
-
+  let activity = new Activity(
+      period.Title,
+      this.activtyHeightPx,
+      period.IsMovable,
+      period.Color,
+      period.StartTime,
+      period.EndTime,
+      30)
+      
   this.activitys.push(activity);
 });
     /*for(let period in data.Schedule.Periods){
