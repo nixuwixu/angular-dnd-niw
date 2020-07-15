@@ -11,6 +11,7 @@ import {
 import { ViewportRuler } from "@angular/cdk/overlay";
 import { JsonService } from './json-service';
 import moment from 'moment';
+import { Activity } from './models'
 
 @Component({
   selector: "my-app",
@@ -25,9 +26,9 @@ export class AppComponent implements OnInit{
   public activtyHeightPx = 20;
   public timelineInterval: number = 30;
 
-  public activitys: Array<any> =  this.generateActivitysArray2();
+  public activitys: Array<Activity>;// =  this.generateActivitysArray();
   public timeline: Array<any> = this.generateTimelineArray2();
-  public timelineStart = moment(this.activitys[0].starttime,'HH:mm').clone();
+  public timelineStart ;//= moment(this.activitys[0].starttime,'HH:mm').clone();
 
   public target: CdkDropList = null;
   public targetIndex: number;
@@ -36,25 +37,23 @@ export class AppComponent implements OnInit{
   public dragIndex: number;
   public activeContainer;
 
-  public getScheduleApi: any;
+  //public getScheduleApi: any;
 
 
   constructor(private viewportRuler: ViewportRuler, private jsonService: JsonService) {}
 
   public ngOnInit(): void {
-    this.jsonService.getData()
+    this.jsonService.getSchedule()
       .subscribe((data: any): void => {
-        this.getScheduleApi = data;
+        //this.getScheduleApi = data;
+        this.generateActivitysArray(data);
       });
   }
 
   ngAfterViewInit() {
     let phElement = this.placeholder.element.nativeElement;
-
     phElement.style.display = "none";
     phElement.parentElement.removeChild(phElement);
-
-   
   }
 
 /* Activitys array rules
@@ -83,7 +82,36 @@ isActivityMoveAllowed(indexFrom, indexTo)
 mapActivyToTimeline ?
 
 */
-  generateActivitysArray() {
+  generateActivitysArray(data) {
+    console.log('generateActivitysArray');
+    //this.timelineStart = moment(this.activitys[0].starttime,'HH:mm').clone();
+
+data.Schedule.Periods.forEach((period) => {
+  let activity: Activity;
+      activity.title = period.Title;
+      activity.height = this.activtyHeightPx;
+      activity.movable = period.IsMovable;
+      activity.color = period.Color;
+      activity.starttime = period.StartTime;
+      activity.endtime = period.EndTime;
+      activity.activityLength = 30;
+
+  this.activitys.push(activity);
+});
+    /*for(let period in data.Schedule.Periods){
+      let activity:Activity = new Activity();
+      activity.title = period.Title;
+      activity.height = this.activtyHeightPx;
+      activity.movable = period.IsMovable;
+      activity.color = period.Color;
+      activity.starttime = period.StartTime;
+      activity.endtime = period.EndTime;
+      activity.activityLength = 30;*/
+
+      //this.activitys.push(activity);
+   // }
+    //let test: Array<Activity> = data.Schedule.Periods;
+    //return test;
 
   }
 
