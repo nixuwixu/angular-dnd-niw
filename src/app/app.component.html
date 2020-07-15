@@ -10,9 +10,9 @@
 
 	<ul class="timeline" [ngStyle]="{'margin-top.px': -(activtyHeightPx/2)}">
 
-		<li class="timeline-item" *ngFor="let time of timeline" [ngStyle]="{
+		<li class="timeline-item" *ngFor="let timelineitem of timeline" [ngStyle]="{
         'height.px': activtyHeightPx}">
-			{{time.title}}
+			<span *ngIf="!timelineitem.visible">{{timelineitem.time}}</span>
 		</li>
 
 	</ul>

@@ -27,14 +27,14 @@
 }
 
 .activity-item {
-  width: 300px;
+  width: 200px;
   font-size: 10pt;
   cursor: move;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  border: solid 1px #fff;
+  //border: solid 1px #fff;
 }
 
 .activity-item:active {

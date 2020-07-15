@@ -11,7 +11,7 @@ import {
 import { ViewportRuler } from "@angular/cdk/overlay";
 import { JsonService } from './json-service';
 import moment from 'moment';
-import { Activity } from './models'
+import { Activity, TimelineItem } from './models'
 
 @Component({
   selector: "my-app",
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit{
   public timelineInterval: number = 15;
 
   public activitys: Array<Activity> = [];
-  public timeline: Array<any> = this.generateTimelineArray2();
+  public timeline: Array<TimelineItem> = [];
   public timelineStart ;
 
   public target: CdkDropList = null;
@@ -56,9 +56,6 @@ export class AppComponent implements OnInit{
 
 - 'Short break' not allowed before or after another 'Short break' in array.
 - 'Short break' not allowed at first or last index in array.
-- if 'Activty' is movable it's height should be nActivitySlices * activtyHeight
-
-nActivitySlices = ActivityLengthInMinutes / timelineInterval
 
 - 60 / timelineInterval(30) = 2
 - 30 / timelineInterval(30) = 1
@@ -71,11 +68,7 @@ nActivitySlices = ActivityLengthInMinutes / timelineInterval
 
 - Functions
 
-getActivityTimeFromArray(index)
-
 isActivityMoveAllowed(indexFrom, indexTo)
-
-mapActivyToTimeline ?
 
 */
   generateActivitysArray(data) {
@@ -83,7 +76,6 @@ mapActivyToTimeline ?
     data.Schedule.Periods.forEach((period) => {
       let activityLength = moment(period.EndTime).diff(moment(period.StartTime), 'minutes');
       let nActivitySlices = activityLength / this.timelineInterval;
-      console.log('diffMin ' + nActivitySlices);
 
       if(period.IsMovable){
 
@@ -121,52 +113,21 @@ mapActivyToTimeline ?
     });
 
     this.timelineStart = moment(this.activitys[0].starttime,'HH:mm').clone();
+    this.generateTimelineArray();
   }
 
-/* Timeline array construction
-- timeLineSpanMinutes = last Activity endtime (22:30) - first Activity starttime (12:00) * 60 =>  10 ½ => 630
-- 630 / timelineInterval(30) = 21
-- 630 / timelineInterval(15) = 42
-
-( shortestActivty decides min for timelineInterval )
-
-*/
   generateTimelineArray() {
-    for(var time = 0; time < this.activitys.length; time++){
-      let timelineItem = new TimelineItem{
-        this.timelineStart,
-        true
-      }
+    let timelineMinutes = moment(this.activitys[this.activitys.length-1].endtime,'HH:mm')
+    .diff(this.timelineStart, 'minutes');
+    let nTimelineItems = timelineMinutes / this.timelineInterval;
 
+    for(var n = 0; n <= nTimelineItems; n++){
+      let timelineItem = new TimelineItem(
+        moment(this.timelineStart).add(this.timelineInterval * n ,'minutes').format('HH:mm'),
+        n % 2 == 1
+      )
+      this.timeline.push(timelineItem);
     }
-  }
-
-  generateTimelineArray2() {
-    return [
-    { title: '12:00' },
-    { title: '12:30' },
-    { title: '13:00' },
-    { title: '13:30' },
-    { title: '14:00' },
-    { title: '14:30' },
-    { title: '15:00' },
-    { title: '15:30' },
-    { title: '16:00' },
-    { title: '16:30' },
-    { title: '17:00' },
-    { title: '17:30' },
-    { title: '18:00' },
-    { title: '18:30' },
-    { title: '19:00' },
-    { title: '19:30' },
-    { title: '20:00' },
-    { title: '20:30' },
-    { title: '21:00' },
-    { title: '21:30' },
-    { title: '22:00' },
-    { title: '22:30' }
-  ];
-
   }
 
   dragMoved(e: CdkDragMove) {
