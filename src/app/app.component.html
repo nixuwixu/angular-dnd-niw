@@ -32,7 +32,8 @@
         [cdkDragDisabled]='!activity.movable' class="activity-item"
 				(cdkDragMoved)="dragMoved($event);" [ngStyle]="{
         'height.px': activity.height,
-        'background-color': 'rgba('+ activity.color + ')'}">
+        'background-color': 'rgba('+ activity.color + ')'}"
+        [ngClass]="(activity.isLocked)? 'activity-item-locked':''">
 				<span>{{getActivityTime(activitys.indexOf(activity))}}</span>
       </div>
 

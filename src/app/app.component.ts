@@ -52,25 +52,6 @@ export class AppComponent implements OnInit{
     phElement.parentElement.removeChild(phElement);
   }
 
-/* Activitys array rules
-
-- 'Short break' not allowed before or after another 'Short break' in array.
-- 'Short break' not allowed at first or last index in array.
-
-- 60 / timelineInterval(30) = 2
-- 30 / timelineInterval(30) = 1
-- 15 / timelineInterval(30) = 0.5 ( RULE: timelineInterval can't be > ActivityLengthInMinutes )
-( shortestActivty decides min for timelineInterval )
-
-- 60 / timelineInterval(15) = 4
-- 30 / timelineInterval(15) = 2
-- 15 / timelineInterval(15) = 1
-
-- Functions
-
-
-
-*/
   generateActivitysArray(data) {
 
     data.Schedule.Periods.forEach((period) => {
@@ -88,7 +69,8 @@ export class AppComponent implements OnInit{
         moment(period.EndTime).format('HH:mm'),
         this.timelineInterval * nActivitySlices,
         period.IsLunch,
-        period.IsShortBreak
+        period.IsShortBreak,
+        false
         )
         this.activitys.push(activity);
         
@@ -108,7 +90,8 @@ export class AppComponent implements OnInit{
           .format('HH:mm'),
           this.timelineInterval,
           period.IsLunch,
-          period.IsShortBreak
+          period.IsShortBreak,
+          false
           )
           this.activitys.push(activity);
         }
@@ -173,6 +156,12 @@ export class AppComponent implements OnInit{
 
   isActivityMoveAllowed(sourceIndex, targetIndex){
 
+    // is locked
+    if(this.activitys[targetIndex].isLocked) {
+        console.log('Move not allowed, Target is locked');
+        return false;
+    }
+
     // Lunch rules
     if(this.activitys[sourceIndex].isLunch) {
       if(targetIndex==0 ) {
@@ -199,6 +188,7 @@ export class AppComponent implements OnInit{
       return true;
     }
 
+    return true;
   }
   
   updateTime(){
