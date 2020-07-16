@@ -203,13 +203,26 @@ export class AppComponent implements OnInit{
     }
   }
 
-  getActivityTime(index){
+  getActivityTimeDebug(index){
     if(index == 0 || this.activitys[index].title != this.activitys[index-1].title){
       return this.activitys[index].title + ' '
        + this.activitys[index].starttime + ' - ' 
        + this.activitys[index].endtime;
     }
     return this.activitys[index].starttime + ' - ' + this.activitys[index].endtime;
+  }
+
+  getActivityTime(index){
+    if(index == 0 || this.activitys[index].title != this.activitys[index-1].title){
+      let endTime = "test";
+      for(var n = index; n < this.activitys.length; n++){
+        console.log('endtime' + this.activitys[n].endtime);
+      }
+
+      return this.activitys[index].title + ' '
+       + this.activitys[index].starttime + ' - ' 
+       + endTime;
+    }
   }
 
   dropListEnterPredicate = (drag: CdkDrag, drop: CdkDropList) => {
