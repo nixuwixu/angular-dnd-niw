@@ -68,7 +68,7 @@ export class AppComponent implements OnInit{
 
 - Functions
 
-isActivityMoveAllowed(indexFrom, indexTo)
+
 
 */
   generateActivitysArray(data) {
@@ -159,12 +159,44 @@ isActivityMoveAllowed(indexFrom, indexTo)
     this.target = null;
     this.source = null;
 
-    if (this.sourceIndex != this.targetIndex){
+    if (this.sourceIndex != this.targetIndex && this.isActivityMoveAllowed(this.sourceIndex, this.targetIndex) ){
+
       moveItemInArray(this.activitys, this.sourceIndex, this.targetIndex);
       this.updateTime();
+
     }
   }
 
+  isActivityMoveAllowed(sourceIndex, targetIndex){
+
+    // Lunch rules
+    if(this.activitys[sourceIndex].title == 'Lunch') {
+      if(targetIndex==0 ) {
+        console.log('Move not allowed, Lunch cant be at day start');
+        return false;
+      }
+      if(targetIndex==this.activitys.length-1) {
+        console.log('Move not allowed, Lunch cant be at day end');
+                return false;
+      }
+      return true;
+    }
+
+    // Short break rules
+    if(this.activitys[sourceIndex].title == 'Short break') {
+      if(targetIndex==0 ) {
+        console.log('Move not allowed, Short break cant be at day start');
+        return false;
+      }
+      if(targetIndex==this.activitys.length-1) {
+        console.log('Move not allowed, Short break cant be at day end');
+                return false;
+      }
+      return true;
+    }
+
+  }
+  
   updateTime(){
     for(var index = 0; index < this.activitys.length; index++){
       if (index == 0) {
