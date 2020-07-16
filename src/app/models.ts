@@ -7,6 +7,8 @@ export class Activity {
   starttime: string;
   endtime: string;
   activityLength: number;
+  isLunch: boolean;
+  isShortBreak: boolean;
 
   constructor(
     title: string,
@@ -15,7 +17,10 @@ export class Activity {
     color: string,
     starttime: string,
     endtime: string,
-    activityLength: number) {
+    activityLength: number,
+    isLunch: boolean,
+    isShortBreak: boolean
+  ) {
       this.title = title;
       this.height = height;
       this.movable = movable;
@@ -23,6 +28,8 @@ export class Activity {
       this.starttime = starttime;
       this.endtime = endtime;
       this.activityLength = activityLength;
+      this.isLunch = isLunch;
+      this.isShortBreak = isShortBreak;
     }
 }
 

@@ -86,7 +86,9 @@ export class AppComponent implements OnInit{
         period.Color,
         moment(period.StartTime).format('HH:mm'),
         moment(period.EndTime).format('HH:mm'),
-        this.timelineInterval * nActivitySlices
+        this.timelineInterval * nActivitySlices,
+        period.IsLunch,
+        period.IsShortBreak
         )
         this.activitys.push(activity);
         
@@ -104,7 +106,9 @@ export class AppComponent implements OnInit{
           moment(period.StartTime)
           .add(this.timelineInterval * n + this.timelineInterval,'minutes')
           .format('HH:mm'),
-          this.timelineInterval
+          this.timelineInterval,
+          period.IsLunch,
+          period.IsShortBreak
           )
           this.activitys.push(activity);
         }
@@ -170,7 +174,7 @@ export class AppComponent implements OnInit{
   isActivityMoveAllowed(sourceIndex, targetIndex){
 
     // Lunch rules
-    if(this.activitys[sourceIndex].title == 'Lunch') {
+    if(this.activitys[sourceIndex].isLunch) {
       if(targetIndex==0 ) {
         console.log('Move not allowed, Lunch cant be at day start');
         return false;
@@ -183,7 +187,7 @@ export class AppComponent implements OnInit{
     }
 
     // Short break rules
-    if(this.activitys[sourceIndex].title == 'Short break') {
+    if(this.activitys[sourceIndex].isShortBreak) {
       if(targetIndex==0 ) {
         console.log('Move not allowed, Short break cant be at day start');
         return false;
