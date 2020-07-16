@@ -214,9 +214,16 @@ export class AppComponent implements OnInit{
 
   getActivityTime(index){
     if(index == 0 || this.activitys[index].title != this.activitys[index-1].title){
-      let endTime = "test";
+      let endTime = 'test';
+      console.log('index' + index);
       for(var n = index; n < this.activitys.length; n++){
-        console.log('endtime' + this.activitys[n].endtime);
+        if(this.activitys[n].title != this.activitys[index].title){
+          console.log('endtime' + this.activitys[n].endtime);
+          endTime = this.activitys[n-1].endtime;
+          break
+        } else {
+          endTime = this.activitys[this.activitys.length-1].endtime;
+        }
       }
 
       return this.activitys[index].title + ' '
