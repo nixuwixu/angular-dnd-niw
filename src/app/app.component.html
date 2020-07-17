@@ -34,7 +34,7 @@
         'height.px': activity.height,
         'background-color': 'rgba('+ activity.color + ')'}"
         [ngClass]="(activity.isLocked)? 'activity-item-locked':''">
-				<span>{{getActivityTime(activitys.indexOf(activity))}}</span>
+				<span class="activity-title">{{getActivityTime(activitys.indexOf(activity))}}</span>
       </div>
 
 		</div>

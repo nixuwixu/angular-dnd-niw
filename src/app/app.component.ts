@@ -23,8 +23,8 @@ export class AppComponent implements OnInit{
   @ViewChild(CdkDropListGroup) listGroup: CdkDropListGroup<CdkDropList>;
   @ViewChild(CdkDropList) placeholder: CdkDropList;
 
-  public activtyHeightPx = 20;
-  public timelineInterval: number = 15;
+  public activtyHeightPx = 5;
+  public timelineInterval: number = 5;
 
   public activitys: Array<Activity> = [];
   public timeline: Array<TimelineItem> = [];
@@ -109,9 +109,11 @@ export class AppComponent implements OnInit{
     let nTimelineItems = timelineMinutes / this.timelineInterval;
 
     for(var n = 0; n <= nTimelineItems; n++){
+      let timelineTime = moment(this.timelineStart).add(this.timelineInterval * n ,'minutes')
+      .format('HH:mm')
       let timelineItem = new TimelineItem(
-        moment(this.timelineStart).add(this.timelineInterval * n ,'minutes').format('HH:mm'),
-        n % 2 == 1
+        timelineTime,
+        ['00','30'].indexOf(timelineTime.slice(3,5)) == -1,
       )
       this.timeline.push(timelineItem);
     }
