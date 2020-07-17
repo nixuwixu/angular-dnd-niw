@@ -26,6 +26,10 @@
   text-align: right
 }
 
+.zoomclass {
+  font-size: 16px;
+}
+
 .activity-item {
   width: 200px;
   cursor: move;

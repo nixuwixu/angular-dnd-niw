@@ -40,11 +40,14 @@ export class TimelineItem {
 
   time: string;
   visible: boolean;
+  zoomclass: boolean;
 
   constructor(
     time: string,
-    visible: boolean) {
+    visible: boolean,
+    zoomclass: boolean) {
       this.time = time;
       this.visible = visible;
+      this.zoomclass = zoomclass;
     }
 }

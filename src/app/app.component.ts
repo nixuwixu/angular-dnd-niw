@@ -29,6 +29,7 @@ export class AppComponent implements OnInit{
   public activitys: Array<Activity> = [];
   public timeline: Array<TimelineItem> = [];
   public timelineStart ;
+  public realtimeTime = 'nikke';
 
   public target: CdkDropList = null;
   public targetIndex: number;
@@ -114,6 +115,7 @@ export class AppComponent implements OnInit{
       let timelineItem = new TimelineItem(
         timelineTime,
         ['00','30'].indexOf(timelineTime.slice(3,5)) == -1,
+        false
       )
       this.timeline.push(timelineItem);
     }
@@ -125,9 +127,19 @@ export class AppComponent implements OnInit{
     this.listGroup._items.forEach(dropList => {
       if (__isInsideDropListClientRect(dropList, point.x, point.y)) {
         this.activeContainer = dropList;
+            this.realtimeUpdate(this.targetIndex,this.sourceIndex);
         return;
       }
     });
+  }
+
+  realtimeUpdate(targetIndex,sourceIndex){
+    this.realtimeTime = this.activitys[targetIndex].starttime + ' - ' +
+    moment(this.activitys[targetIndex].starttime,'HH:mm')
+      .add(this.activitys[sourceIndex].activityLength,'minute').format('HH:mm');;
+
+    this.timeline[targetIndex].zoomclass = true;
+
   }
 
   dropListDropped() {
