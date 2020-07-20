@@ -29,7 +29,7 @@ export class AppComponent implements OnInit{
   public activitys: Array<Activity> = [];
   public timeline: Array<TimelineItem> = [];
   public timelineStart;
-  public realtimeTime;
+  public timelineSteps = ['00','30'];
 
   public target: CdkDropList = null;
   public targetIndex: number;
@@ -114,7 +114,7 @@ export class AppComponent implements OnInit{
       .format('HH:mm')
       let timelineItem = new TimelineItem(
         timelineTime,
-        ['00','30'].indexOf(timelineTime.slice(3,5)) != -1,
+        this.timelineSteps.indexOf(timelineTime.slice(3,5)) != -1,
         false
       )
       this.timeline.push(timelineItem);
@@ -123,21 +123,52 @@ export class AppComponent implements OnInit{
 
   dragMoved(e: CdkDragMove) {
     let point = this.getPointerPositionOnPage(e.event);
-
     this.listGroup._items.forEach(dropList => {
       if (__isInsideDropListClientRect(dropList, point.x, point.y)) {
         this.activeContainer = dropList;
-        this.updateActveTimeline(this.targetIndex);
+        this.updateActveTimeline(this.targetIndex,this.sourceIndex);
         return;
       }
     });
   }
 
-  updateActveTimeline(targetIndex){
-    for(let index in this.timeline){
-      this.timeline[index].isVisible = false;
+  updateActveTimeline(targetIndex,sourceIndex){
+
+    if(targetIndex) {
+      let activityStart = this.activitys[targetIndex].starttime;
+      let activityEnd = moment(activityStart,'HH:mm')
+            .add(this.activitys[sourceIndex].activityLength,'minute').format('HH:mm');
+
+      this.hideTimeline();
+
+      for(var index = 0; index < this.timeline.length; index++){
+
+        if(this.timeline[index] && this.timeline[index].time == activityStart){
+          this.timeline[index].isActive = true;
+          this.timeline[index].isVisible = true;
+        }
+
+        if(this.timeline[index] && this.timeline[index].time == activityEnd){
+          this.timeline[index].isActive = true;
+          this.timeline[index].isVisible = true;
+        }
+
+      }
+
     }
-    this.timeline[targetIndex].isActive = true;
+  }
+
+  hideTimeline(){
+    for(let index in this.timeline)
+      this.timeline[index].isVisible = false;
+  }
+
+  showTimeline(){
+    for(let index in this.timeline){
+      this.timeline[index].isActive = false;
+      this.timeline[index].isVisible = this.timelineSteps
+      .indexOf(this.timeline[index].time.slice(3,5)) != -1
+    }
   }
 
   dropListDropped() {
@@ -213,6 +244,7 @@ export class AppComponent implements OnInit{
       this.activitys[index].endtime = moment(this.activitys[index].starttime,'HH:mm')
       .add(this.activitys[index].activityLength,'minute').format('HH:mm');
     }
+    this.showTimeline();
   }
 
   getActivityTimeDebug(index){

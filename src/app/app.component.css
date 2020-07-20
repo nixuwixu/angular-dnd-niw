@@ -15,7 +15,10 @@
 
 .timeline {
   list-style-type: none;
-  padding-right: 10px;
+  padding-right: 50px;
+  width:10px;
+  max-width:10px;
+  display: inline-block;
 }
 
 .timeline-item {
@@ -31,6 +34,7 @@
 	background-color: #cbd5e0;
 	padding: 3px 8px;
 	border-radius: 10px;
+  width: 45px;
   justify-content: flex-end;
 }
 
@@ -61,9 +65,12 @@
 }
 
 .cdk-drag-placeholder {
-  //opacity: .3;
+  opacity: .3;
+  border: dotted 3px #999;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   //border-top: solid 1px #000;
   //border-bottom: solid 1px #000;
   //width: 245px;
   //margin-left: -45px
+  
 }
