@@ -39,16 +39,16 @@ export class Activity {
 export class TimelineItem {
 
   time: string;
-  visible: boolean;
+  isVisible: boolean;
   isActive: boolean;
 
   constructor(
     time: string,
-    visible: boolean,
+    isVisible: boolean,
     isActive: boolean
     ) {
       this.time = time;
-      this.visible = visible;
+      this.isVisible = isVisible;
       this.isActive = isActive;
     }
 }

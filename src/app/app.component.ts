@@ -114,7 +114,7 @@ export class AppComponent implements OnInit{
       .format('HH:mm')
       let timelineItem = new TimelineItem(
         timelineTime,
-        ['00','30'].indexOf(timelineTime.slice(3,5)) == -1,
+        ['00','30'].indexOf(timelineTime.slice(3,5)) != -1,
         false
       )
       this.timeline.push(timelineItem);
@@ -135,7 +135,7 @@ export class AppComponent implements OnInit{
 
   updateActveTimeline(targetIndex){
     for(let index in this.timeline){
-    this.timeline[index].visible = true;
+      this.timeline[index].isVisible = false;
     }
     this.timeline[targetIndex].isActive = true;
   }
