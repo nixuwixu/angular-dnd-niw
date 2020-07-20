@@ -125,17 +125,21 @@ export class AppComponent implements OnInit{
 
     this.listGroup._items.forEach(dropList => {
       if (__isInsideDropListClientRect(dropList, point.x, point.y)) {
+        this.realtimeUpdate(this.targetIndex,this.sourceIndex);
         this.activeContainer = dropList;
-            this.realtimeUpdate(this.targetIndex,this.sourceIndex);
+
         return;
       }
     });
   }
 
   realtimeUpdate(targetIndex,sourceIndex){
+    if(this.activitys[targetIndex]){
     this.realtimeTime = this.activitys[targetIndex].starttime + ' - ' +
     moment(this.activitys[targetIndex].starttime,'HH:mm')
       .add(this.activitys[sourceIndex].activityLength,'minute').format('HH:mm');;
+    }
+
   }
 
   dropListDropped() {
