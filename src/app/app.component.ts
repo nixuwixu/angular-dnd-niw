@@ -114,7 +114,8 @@ export class AppComponent implements OnInit{
       .format('HH:mm')
       let timelineItem = new TimelineItem(
         timelineTime,
-        ['00','30'].indexOf(timelineTime.slice(3,5)) == -1
+        ['00','30'].indexOf(timelineTime.slice(3,5)) == -1,
+        false
       )
       this.timeline.push(timelineItem);
     }
@@ -125,21 +126,18 @@ export class AppComponent implements OnInit{
 
     this.listGroup._items.forEach(dropList => {
       if (__isInsideDropListClientRect(dropList, point.x, point.y)) {
-        this.realtimeUpdate(this.targetIndex,this.sourceIndex);
         this.activeContainer = dropList;
-
+        this.updateActveTimeline(this.targetIndex);
         return;
       }
     });
   }
 
-  realtimeUpdate(targetIndex,sourceIndex){
-    if(this.activitys[targetIndex]){
-    this.realtimeTime = this.activitys[targetIndex].starttime + ' - ' +
-    moment(this.activitys[targetIndex].starttime,'HH:mm')
-      .add(this.activitys[sourceIndex].activityLength,'minute').format('HH:mm');;
+  updateActveTimeline(targetIndex){
+    for(let index in this.timeline){
+    this.timeline[index].visible = true;
     }
-
+    this.timeline[targetIndex].isActive = true;
   }
 
   dropListDropped() {

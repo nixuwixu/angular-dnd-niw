@@ -12,7 +12,7 @@
 
 		<li class="timeline-item" *ngFor="let timelineitem of timeline" [ngStyle]="{
         'height.px': activtyHeightPx}">
-			<span *ngIf="!timelineitem.visible">{{timelineitem.time}}</span>
+			<span [ngClass]="(timelineitem.isActive)? 'timeline-item-activ':''" *ngIf="!timelineitem.visible">{{timelineitem.time}}</span>
 		</li>
 
 	</ul>
@@ -38,7 +38,6 @@
       </div>
 
 		</div>
-    <span>{{realtimeTime}}</span>
 	</div>
 
 </div>
