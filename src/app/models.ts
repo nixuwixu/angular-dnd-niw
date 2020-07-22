@@ -52,3 +52,20 @@ export class TimelineItem {
       this.isActive = isActive;
     }
 }
+
+export class MovablePeriod {
+
+  starttime: string;
+  endtime: string;
+  movable: boolean;
+
+  constructor(
+  starttime: string,
+  endtime: string,
+  movable: boolean
+    ) {
+      this.starttime = starttime;
+      this.endtime = endtime;
+      this.movable = movable;
+    }
+}

@@ -11,7 +11,7 @@ import {
 import { ViewportRuler } from "@angular/cdk/overlay";
 import { JsonService } from './json-service';
 import moment from 'moment';
-import { Activity, TimelineItem } from './models'
+import { Activity, TimelineItem, MovablePeriod } from './models'
 
 @Component({
   selector: "my-app",
@@ -28,6 +28,7 @@ export class AppComponent implements OnInit{
 
   public activitys: Array<Activity> = [];
   public timeline: Array<TimelineItem> = [];
+  public movablePeriods: Array<MovablePeriod> = [];
   public timelineStart;
   public timelineSteps = ['00','30'];
 
@@ -41,9 +42,10 @@ export class AppComponent implements OnInit{
   constructor(private viewportRuler: ViewportRuler, private jsonService: JsonService) {}
 
   public ngOnInit(): void {
-    this.jsonService.getSchedule()
-      .subscribe((data: any): void => {
-        this.generateActivitysArray(data);
+
+    this.jsonService.getActivityMovablePeriods()
+      .subscribe((movablePeriods: any): void => {
+        this.generateMovablePeriodsArray(movablePeriods);
       });
   }
 
@@ -51,6 +53,22 @@ export class AppComponent implements OnInit{
     let phElement = this.placeholder.element.nativeElement;
     phElement.style.display = "none";
     phElement.parentElement.removeChild(phElement);
+  }
+
+  generateMovablePeriodsArray(movablePeriods) {
+    movablePeriods.forEach((movablePeriod) => {
+      let movablePeriod2 = new MovablePeriod(
+        moment(movablePeriod.StartTime).format('HH:mm'),
+        moment(movablePeriod.EndTime).format('HH:mm'),
+        !movablePeriod.Movable
+      )
+      this.movablePeriods.push(movablePeriod2);
+    });
+
+    this.jsonService.getSchedule()
+      .subscribe((data: any): void => {
+        this.generateActivitysArray(data);
+      });
   }
 
   generateActivitysArray(data) {
@@ -78,21 +96,29 @@ export class AppComponent implements OnInit{
       } else {
 
         for(var n = 0; n < nActivitySlices; n++){
+
+          let periodStart = moment(period.StartTime)
+            .add(this.timelineInterval * n,'minutes')
+            .format('HH:mm');
+
+          let periodEnd = moment(period.StartTime)
+            .add(this.timelineInterval * n + this.timelineInterval,'minutes')
+            .format('HH:mm');
+
+          let movablePeriod = this.movablePeriods.filter(movablePeriod => movablePeriod.starttime === periodStart && movablePeriod.endtime === periodEnd);
+
+
           let activity = new Activity(
           period.Title,
           this.activtyHeightPx,
           period.IsMovable,
           period.Color,
-          moment(period.StartTime)
-          .add(this.timelineInterval * n,'minutes')
-          .format('HH:mm'),
-          moment(period.StartTime)
-          .add(this.timelineInterval * n + this.timelineInterval,'minutes')
-          .format('HH:mm'),
+          periodStart,
+          periodEnd,
           this.timelineInterval,
           period.IsLunch,
           period.IsShortBreak,
-          false
+          movablePeriod[0].movable
           )
           this.activitys.push(activity);
         }

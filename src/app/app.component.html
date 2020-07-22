@@ -1,11 +1,5 @@
 <h1>Self scheduling</h1>
 
-<ul class="schedule-preview">
-	<li *ngFor="let activity of activitys" [ngStyle]="{
-     'background-color': 'rgba('+ activity.color + ')'}"></li>
-</ul>
-
-
 <div class="schedule-container">
 
 	<ul class="timeline" [ngStyle]="{'margin-top.px': -(activtyHeightPx/2)}">

@@ -147,82 +147,82 @@
   {
     "StartTime": "2020-07-24T09:59:00",
     "EndTime": "2020-07-24T10:00:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:00:00",
     "EndTime": "2020-07-24T10:01:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:01:00",
     "EndTime": "2020-07-24T10:02:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:02:00",
     "EndTime": "2020-07-24T10:03:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:03:00",
     "EndTime": "2020-07-24T10:04:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:04:00",
     "EndTime": "2020-07-24T10:05:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:05:00",
     "EndTime": "2020-07-24T10:06:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:06:00",
     "EndTime": "2020-07-24T10:07:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:07:00",
     "EndTime": "2020-07-24T10:08:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:08:00",
     "EndTime": "2020-07-24T10:09:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:09:00",
     "EndTime": "2020-07-24T10:10:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:10:00",
     "EndTime": "2020-07-24T10:11:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:11:00",
     "EndTime": "2020-07-24T10:12:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:12:00",
     "EndTime": "2020-07-24T10:13:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:13:00",
     "EndTime": "2020-07-24T10:14:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:14:00",
     "EndTime": "2020-07-24T10:15:00",
-    "Movable": true
+    "Movable": false
   },
   {
     "StartTime": "2020-07-24T10:15:00",
