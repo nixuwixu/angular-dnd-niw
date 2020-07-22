@@ -23,8 +23,8 @@ export class AppComponent implements OnInit{
   @ViewChild(CdkDropListGroup) listGroup: CdkDropListGroup<CdkDropList>;
   @ViewChild(CdkDropList) placeholder: CdkDropList;
 
-  public activtyHeightPx = 5;
-  public timelineInterval: number = 5;
+  public activtyHeightPx = 1;
+  public timelineInterval: number = 1;
 
   public activitys: Array<Activity> = [];
   public timeline: Array<TimelineItem> = [];
