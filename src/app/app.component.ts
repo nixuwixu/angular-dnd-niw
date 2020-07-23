@@ -152,7 +152,7 @@ export class AppComponent implements OnInit{
     this.listGroup._items.forEach(dropList => {
       if (__isInsideDropListClientRect(dropList, point.x, point.y)) {
         this.activeContainer = dropList;
-        //this.updateActveTimeline(this.targetIndex,this.sourceIndex);
+        this.updateActveTimeline(this.targetIndex,this.sourceIndex);
         return;
       }
     });
@@ -205,19 +205,21 @@ export class AppComponent implements OnInit{
 
     phElement.style.display = "none";
 
-    parent.removeChild(phElement);
-    parent.appendChild(phElement);
-    parent.insertBefore(
-      this.source.element.nativeElement,
-      parent.children[this.sourceIndex]
-    );
+    //parent.removeChild(phElement);
+    //parent.appendChild(phElement);
+    //parent.insertBefore(
+    //  this.source.element.nativeElement,
+    //  parent.children[this.sourceIndex]
+    //);
 
     this.target = null;
     this.source = null;
 
     if (this.sourceIndex != this.targetIndex && this.isActivityMoveAllowed(this.sourceIndex, this.targetIndex) ){
-
-      moveItemInArray(this.activitys, this.sourceIndex, this.targetIndex);
+    alert('Move: ' + this.activitys[this.sourceIndex].title +
+     ' from ' + this.activitys[this.sourceIndex].starttime + 
+     ' to ' + this.activitys[this.targetIndex].starttime);
+      //moveItemInArray(this.activitys, this.sourceIndex, this.targetIndex);
       this.updateTime();
 
     }
@@ -321,30 +323,16 @@ export class AppComponent implements OnInit{
 
       phElement.style.width = sourceElement.clientWidth + "px";
       phElement.style.height = sourceElement.clientHeight + "px";
-
-      sourceElement.parentElement.removeChild(sourceElement);
     }
 
     this.targetIndex = dropIndex;
     this.target = drop;
 
     phElement.style.display = "";
-    dropElement.parentElement.insertBefore(
-      phElement,
-      dropIndex > dragIndex ? dropElement.nextSibling : dropElement
-    );
-
-    this.placeholder.enter(
-      drag,
-      drag.element.nativeElement.offsetLeft,
-      drag.element.nativeElement.offsetTop
-    );
     return false;
   };
 
-  /** Determines the point of the page that was touched by the user. */
   getPointerPositionOnPage(event: MouseEvent | TouchEvent) {
-    // `touches` will be empty for start/end events so we have to fall back to `changedTouches`.
     const point = __isTouchEvent(event)
       ? event.touches[0] || event.changedTouches[0]
       : event;
@@ -361,7 +349,6 @@ function __indexOf(collection, node) {
   return Array.prototype.indexOf.call(collection, node);
 }
 
-/** Determines whether an event is a touch event. */
 function __isTouchEvent(event: MouseEvent | TouchEvent): event is TouchEvent {
   return event.type.startsWith("touch");
 }
