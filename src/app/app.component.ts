@@ -25,6 +25,7 @@ export class AppComponent implements OnInit{
 
   activtyHeightPx = 1;
   timelineInterval: number = 1;
+  modalTitle: string;
 
   activitys: Array<Activity> = [];
   timeline: Array<TimelineItem> = [];
@@ -67,6 +68,7 @@ export class AppComponent implements OnInit{
 
     this.jsonService.getSchedule()
       .subscribe((data: any): void => {
+        this.modalTitle = data.Date.toString();
         this.generateActivitysArray(data);
       });
   }
@@ -161,7 +163,7 @@ export class AppComponent implements OnInit{
 			' from: ' + this.activitys[sourceIndex].starttime +
 			' to: ' + this.activitys[targetIndex].starttime);
 
-		moveItemInArray(this.activitys, sourceIndex, targetIndex);
+		//moveItemInArray(this.activitys, sourceIndex, targetIndex);
     this.showTimeline();
 	}
 
