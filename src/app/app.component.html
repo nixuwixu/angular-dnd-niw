@@ -28,6 +28,7 @@
         'height.px': activity.height,
         'background-color': 'rgba('+ activity.color + ')'}"
         [ngClass]="(activity.isLocked)? 'activity-item-locked':''">
+        <i *ngIf="activity.movable" [ngStyle]="{'right': '-25px', 'position':'absolute', 'font-size': '24px'}" nz-icon nzType="swap" nzTheme="outline"></i>
 				<span class="activity-title">{{getActivityTime(activitys.indexOf(activity))}}</span>
       </div>
 

@@ -23,21 +23,21 @@ export class AppComponent implements OnInit{
   @ViewChild(CdkDropListGroup) listGroup: CdkDropListGroup<CdkDropList>;
   @ViewChild(CdkDropList) placeholder: CdkDropList;
 
-  public activtyHeightPx = 1;
-  public timelineInterval: number = 1;
+  activtyHeightPx = 1;
+  timelineInterval: number = 1;
 
-  public activitys: Array<Activity> = [];
-  public timeline: Array<TimelineItem> = [];
-  public movablePeriods: Array<MovablePeriod> = [];
-  public timelineStart;
-  public timelineSteps = ['00','30'];
+  activitys: Array<Activity> = [];
+  timeline: Array<TimelineItem> = [];
+  movablePeriods: Array<MovablePeriod> = [];
+  timelineStart;
+  timelineSteps = ['00','30'];
 
-  public target: CdkDropList = null;
-  public targetIndex: number;
-  public source: CdkDropList = null;
-  public sourceIndex: number;
-  public dragIndex: number;
-  public activeContainer;
+  target: CdkDropList = null;
+  targetIndex: number;
+  source: CdkDropList = null;
+  sourceIndex: number;
+  dragIndex: number;
+  activeContainer;
 
   constructor(private viewportRuler: ViewportRuler, private jsonService: JsonService) {}
 
@@ -57,7 +57,7 @@ export class AppComponent implements OnInit{
 
   generateMovablePeriodsArray(movablePeriods) {
     movablePeriods.forEach((movablePeriod) => {
-      let movablePeriod2 = new MovablePeriod(
+      const movablePeriod2 = new MovablePeriod(
         moment(movablePeriod.StartTime).format('HH:mm'),
         moment(movablePeriod.EndTime).format('HH:mm'),
         !movablePeriod.Movable
@@ -74,52 +74,59 @@ export class AppComponent implements OnInit{
   generateActivitysArray(data) {
 
     data.Schedule.Periods.forEach((period) => {
-      let activityLength = moment(period.EndTime).diff(moment(period.StartTime), 'minutes');
-      let nActivitySlices = activityLength / this.timelineInterval;
+      const activityLength = moment(period.EndTime).diff(moment(period.StartTime), 'minutes');
+      const nActivitySlices = activityLength / this.timelineInterval;
 
       if(period.IsMovable){
 
-        let activity = new Activity(
-        period.Title,
-        this.activtyHeightPx * nActivitySlices,
-        period.IsMovable,
-        period.Color,
-        moment(period.StartTime).format('HH:mm'),
-        moment(period.EndTime).format('HH:mm'),
-        this.timelineInterval * nActivitySlices,
-        period.IsLunch,
-        period.IsShortBreak,
-        false
-        )
+        const activity = new Activity(
+          period.Title,
+          this.activtyHeightPx * nActivitySlices,
+          period.IsMovable,
+          period.Color,
+          moment(period.StartTime).format('HH:mm'),
+          moment(period.EndTime).format('HH:mm'),
+          this.timelineInterval * nActivitySlices,
+          period.IsLunch,
+          period.IsShortBreak,
+          false
+        );
         this.activitys.push(activity);
         
       } else {
 
         for(var n = 0; n < nActivitySlices; n++){
 
-          let periodStart = moment(period.StartTime)
+          let activityLocked;
+
+          const periodStart = moment(period.StartTime)
             .add(this.timelineInterval * n,'minutes')
             .format('HH:mm');
 
-          let periodEnd = moment(period.StartTime)
+          const periodEnd = moment(period.StartTime)
             .add(this.timelineInterval * n + this.timelineInterval,'minutes')
             .format('HH:mm');
 
-          let movablePeriod = this.movablePeriods.filter(movablePeriod => movablePeriod.starttime === periodStart && movablePeriod.endtime === periodEnd);
+          const movablePeriodMatch = this.movablePeriods.filter(movablePeriod => movablePeriod.starttime === periodStart && movablePeriod.endtime === periodEnd);
 
+          if (movablePeriodMatch.length > 0) {
+						activityLocked = movablePeriodMatch[0].movable;
+					} else {
+						activityLocked = false;
+					}
 
-          let activity = new Activity(
-          period.Title,
-          this.activtyHeightPx,
-          period.IsMovable,
-          period.Color,
-          periodStart,
-          periodEnd,
-          this.timelineInterval,
-          period.IsLunch,
-          period.IsShortBreak,
-          movablePeriod[0].movable
-          )
+          const activity = new Activity(
+            period.Title,
+            this.activtyHeightPx,
+            period.IsMovable,
+            period.Color,
+            periodStart,
+            periodEnd,
+            this.timelineInterval,
+            period.IsLunch,
+            period.IsShortBreak,
+            activityLocked
+          );
           this.activitys.push(activity);
         }
       }
@@ -131,24 +138,53 @@ export class AppComponent implements OnInit{
   }
 
   generateTimelineArray() {
-    let timelineMinutes = moment(this.activitys[this.activitys.length-1].endtime,'HH:mm')
+    const timelineMinutes = moment(this.activitys[this.activitys.length-1].endtime,'HH:mm')
     .diff(this.timelineStart, 'minutes');
-    let nTimelineItems = timelineMinutes / this.timelineInterval;
+    const nTimelineItems = timelineMinutes / this.timelineInterval;
 
-    for(var n = 0; n <= nTimelineItems; n++){
-      let timelineTime = moment(this.timelineStart).add(this.timelineInterval * n ,'minutes')
-      .format('HH:mm')
-      let timelineItem = new TimelineItem(
+    for(let n = 0; n <= nTimelineItems; n++){
+      const timelineTime = moment(this.timelineStart)
+        .add(this.timelineInterval * n ,'minutes')
+        .format('HH:mm')
+      const timelineItem = new TimelineItem(
         timelineTime,
         this.timelineSteps.indexOf(timelineTime.slice(3,5)) != -1,
         false
-      )
+      );
       this.timeline.push(timelineItem);
     }
   }
 
+	showConfirOk(sourceIndex: number, targetIndex: number) {
+
+		console.log('Button ok clicked! move: ' + this.activitys[sourceIndex].title +
+			' from: ' + this.activitys[sourceIndex].starttime +
+			' to: ' + this.activitys[targetIndex].starttime);
+
+		moveItemInArray(this.activitys, sourceIndex, targetIndex);
+    this.showTimeline();
+	}
+
+	showConfirCancel() {
+		console.log('Button cancel clicked!');
+		this.showTimeline();
+	}
+
+	showConfirmModal(sourceIndex: number, targetIndex: number) {
+
+    if (confirm('Move: ' + this.activitys[this.sourceIndex].title +
+     ' from ' + this.activitys[this.sourceIndex].starttime + 
+     ' to ' + this.activitys[this.targetIndex].starttime))
+    {
+      this.showConfirOk(sourceIndex, targetIndex);
+    } else {
+      this.showConfirCancel();
+    }
+
+	}
+
   dragMoved(e: CdkDragMove) {
-    let point = this.getPointerPositionOnPage(e.event);
+    const point = this.getPointerPositionOnPage(e.event);
     this.listGroup._items.forEach(dropList => {
       if (__isInsideDropListClientRect(dropList, point.x, point.y)) {
         this.activeContainer = dropList;
@@ -158,23 +194,23 @@ export class AppComponent implements OnInit{
     });
   }
 
-  updateActveTimeline(targetIndex,sourceIndex){
+  updateActveTimeline(targetIndex: number, sourceIndex: number){
 
     if(targetIndex) {
-      let activityStart = this.activitys[targetIndex].starttime;
-      let activityEnd = moment(activityStart,'HH:mm')
+      const activityStart = this.activitys[targetIndex].starttime;
+      const activityEnd = moment(activityStart,'HH:mm')
             .add(this.activitys[sourceIndex].activityLength,'minute').format('HH:mm');
 
       this.hideTimeline();
 
-      for(var index = 0; index < this.timeline.length; index++){
+      for(let index = 0; index < this.timeline.length; index++){
 
-        if(this.timeline[index] && this.timeline[index].time == activityStart){
+        if(this.timeline[index] && this.timeline[index].time === activityStart){
           this.timeline[index].isActive = true;
           this.timeline[index].isVisible = true;
         }
 
-        if(this.timeline[index] && this.timeline[index].time == activityEnd){
+        if(this.timeline[index] && this.timeline[index].time === activityEnd){
           this.timeline[index].isActive = true;
           this.timeline[index].isVisible = true;
         }
@@ -185,12 +221,12 @@ export class AppComponent implements OnInit{
   }
 
   hideTimeline(){
-    for(let index in this.timeline)
+    for(const index in this.timeline)
       this.timeline[index].isVisible = false;
   }
 
   showTimeline(){
-    for(let index in this.timeline){
+    for(const index in this.timeline){
       this.timeline[index].isActive = false;
       this.timeline[index].isVisible = this.timelineSteps
       .indexOf(this.timeline[index].time.slice(3,5)) != -1
@@ -200,61 +236,48 @@ export class AppComponent implements OnInit{
   dropListDropped() {
     if (!this.target) return;
 
-    let phElement = this.placeholder.element.nativeElement;
-    let parent = phElement.parentElement;
+    const phElement = this.placeholder.element.nativeElement;
+    const parent = phElement.parentElement;
 
     phElement.style.display = "none";
-
-    //parent.removeChild(phElement);
-    //parent.appendChild(phElement);
-    //parent.insertBefore(
-    //  this.source.element.nativeElement,
-    //  parent.children[this.sourceIndex]
-    //);
 
     this.target = null;
     this.source = null;
 
     if (this.sourceIndex != this.targetIndex && this.isActivityMoveAllowed(this.sourceIndex, this.targetIndex) ){
-    alert('Move: ' + this.activitys[this.sourceIndex].title +
-     ' from ' + this.activitys[this.sourceIndex].starttime + 
-     ' to ' + this.activitys[this.targetIndex].starttime);
-      //moveItemInArray(this.activitys, this.sourceIndex, this.targetIndex);
-      this.updateTime();
-
-    }
+      this.showConfirmModal( this.sourceIndex , this.targetIndex );
+      //this.updateTime();
+    } else
+        this.showTimeline();
   }
 
-  isActivityMoveAllowed(sourceIndex, targetIndex){
+  isActivityMoveAllowed(sourceIndex: number, targetIndex: number){
 
-    // is locked
     if(this.activitys[targetIndex].isLocked) {
-        console.log('Move not allowed, Target is locked');
+        this.showActivityMoveNotAllowedModal('Target is locked');
         return false;
     }
 
-    // Lunch rules
     if(this.activitys[sourceIndex].isLunch) {
       if(targetIndex==0 ) {
-        console.log('Move not allowed, Lunch cant be at day start');
+        this.showActivityMoveNotAllowedModal('Lunch cant be at day start');
         return false;
       }
       if(targetIndex==this.activitys.length-1) {
-        console.log('Move not allowed, Lunch cant be at day end');
-                return false;
+        this.showActivityMoveNotAllowedModal('Lunch cant be at day end');
+        return false;
       }
       return true;
     }
 
-    // Short break rules
     if(this.activitys[sourceIndex].isShortBreak) {
       if(targetIndex==0 ) {
-        console.log('Move not allowed, Short break cant be at day start');
+        this.showActivityMoveNotAllowedModal('Short break cant be at day start');
         return false;
       }
       if(targetIndex==this.activitys.length-1) {
-        console.log('Move not allowed, Short break cant be at day end');
-                return false;
+        this.showActivityMoveNotAllowedModal('Short break cant be at day end');
+        return false;
       }
       return true;
     }
@@ -262,8 +285,19 @@ export class AppComponent implements OnInit{
     return true;
   }
   
+  showActivityMoveNotAllowedModal(errorMessage: string) {
+
+    alert('Move not allowed: ' + errorMessage);
+
+		/*this.modal.error({
+			nzTitle: 'Move not allowed',
+			nzContent: errorMessage,
+			nzOkText: this.translate.translate('Ok'),
+		});*/
+	}
+
   updateTime(){
-    for(var index = 0; index < this.activitys.length; index++){
+    for(let index = 0; index < this.activitys.length; index++){
       if (index == 0) {
         this.activitys[index].starttime = this.timelineStart.format('HH:mm');
       } else {
@@ -285,10 +319,10 @@ export class AppComponent implements OnInit{
   }
 
   getActivityTime(index){
-    if(index == 0 || this.activitys[index].title != this.activitys[index-1].title){
+    if(index == 0 || this.activitys[index].title !== this.activitys[index-1].title){
       let endTime;
-      for(var n = index; n < this.activitys.length; n++){
-        if(this.activitys[n].title != this.activitys[index].title){
+      for(let n = index; n < this.activitys.length; n++){
+        if(this.activitys[n].title !== this.activitys[index].title){
           endTime = this.activitys[n-1].endtime;
           break
         } else {
@@ -312,15 +346,13 @@ export class AppComponent implements OnInit{
     let dropElement = drop.element.nativeElement;
 
     let dragIndex = __indexOf(
-      dropElement.parentElement.children,
-      this.source ? phElement : sourceElement
-    );
-    let dropIndex = __indexOf(dropElement.parentElement.children, dropElement);
+      dropElement.parentElement.children, this.source ? phElement : sourceElement);
+    let dropIndex = __indexOf(
+      dropElement.parentElement.children, dropElement);
 
     if (!this.source) {
       this.sourceIndex = dragIndex;
       this.source = drag.dropContainer;
-
       phElement.style.width = sourceElement.clientWidth + "px";
       phElement.style.height = sourceElement.clientHeight + "px";
     }
