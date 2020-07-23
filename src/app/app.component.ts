@@ -152,7 +152,7 @@ export class AppComponent implements OnInit{
     this.listGroup._items.forEach(dropList => {
       if (__isInsideDropListClientRect(dropList, point.x, point.y)) {
         this.activeContainer = dropList;
-        this.updateActveTimeline(this.targetIndex,this.sourceIndex);
+        //this.updateActveTimeline(this.targetIndex,this.sourceIndex);
         return;
       }
     });
